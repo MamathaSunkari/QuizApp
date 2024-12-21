@@ -57,39 +57,29 @@ public class QuizService {
 	}
 
 	public ResponseEntity<Integer> calculateResult(int id, List<Response> responses) throws ResourceNotFoundException {
-	    // Fetch the quiz from the repository, or throw an exception if not found
+
 	    Quiz quiz = quizRepository.findById(id)
 	            .orElseThrow(() -> new ResourceNotFoundException("Quiz not found with id: " + id));
 
-	    // Get the list of questions from the quiz
 	    List<Question> questions = quiz.getQuestions();
 
-	    // Initialize variables to count correct answers and track question index
 	    int right = 0;
 	    int i = 0;
 
-	    // Check if responses are valid (not null or empty)
 	    if (responses == null || responses.isEmpty()) {
 	        throw new IllegalArgumentException("Responses cannot be null or empty.");
 	    }
 
-	    // Iterate through the responses and compare with the correct answers
 	    for (Response response : responses) {
 	        if (i >= questions.size()) {
-	            // Ensure the number of responses does not exceed the number of questions
+	         
 	            throw new IllegalArgumentException("More responses than available questions.");
 	        }
 
-	        // Check if the response matches the correct answer
 	        if( response.getResponse() != null &&  response.getResponse().equals(questions.get(i).getRightAnswer())) 
-	            right++;
-	        
-
-	        // Increment the question index
+	        right++;
 	        i++;
 	    }
-
-	    // Return the result (number of correct answers)
 	    return new ResponseEntity<>(right, HttpStatus.OK);
 	}
 
