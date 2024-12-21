@@ -43,7 +43,7 @@ public class QuestionService {
 	}
 
 	public ResponseEntity<String> addQuestion(Question question) {
-		// TODO Auto-generated method stub
+	
 		 questionRepository.save(question);
 		
 		return new ResponseEntity<>("success", HttpStatus.CREATED);
